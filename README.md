@@ -21,6 +21,10 @@ docker-compose up -d
 ```
 yarn add @nestjs/mongoose mongoose
 ```
+6. Agregar Axios para realizar las peticiones HTTP (fetch solo anda con versiones posteriores a 18 de node).
+```
+yarn add axios@0.27.2
+```
 
 
 ## Stack usado
