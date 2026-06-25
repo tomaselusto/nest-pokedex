@@ -25,6 +25,11 @@ yarn add @nestjs/mongoose mongoose
 ```
 yarn add axios@0.27.2
 ```
+7. Reconstruir la base de datos con la semilla
+```
+http://localhost:3000/api/v2/seed
+```
+
 
 
 ## Stack usado

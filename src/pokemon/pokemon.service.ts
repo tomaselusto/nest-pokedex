@@ -9,12 +9,16 @@ import { IsMongoId } from 'class-validator';
 @Injectable()
 export class PokemonService {
 
+
   //las inyecciones de dependencias se hacen en el constructor
   constructor(
     //inyectar modelos  para poder usarlo en el servicio, se hace con el decorador @InjectModel y se pasa el nombre del modelo
     @InjectModel(Pokemon.name) //decorador que indica que se va a inyectar el modelo de pokemon, 
     //sin él no se puede inyectar el modelo de pokemon
     private readonly pokemonModelo: Model<Pokemon> 
+
+    //usar el pokemon service para crear pokemones en la base de datos,es más limpio para la arquitectura del proyecto, 
+    // ya que el seed service no debería tener acceso directo a la base de datos, sino que debería usar el servicio de pokemon para crear pokemones
   ) {}
   //las inserciones son asincronas, por lo que hay que usar async y await
   async create(createPokemonDto: CreatePokemonDto) {
