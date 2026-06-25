@@ -12,7 +12,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, //elimina propiedades que no están definidas en el DTO.
     forbidNonWhitelisted: true, //lanza un error si se envían propiedades que no están definidas en el DTO.
-    }));
+    transform: true, //
+    transformOptions:{
+      enableImplicitConversion : true //Con esto transformo lo que busco los queryparameters
+    }
+  }));
 
   await app.listen(process.env.PORT ?? 3000);
 }

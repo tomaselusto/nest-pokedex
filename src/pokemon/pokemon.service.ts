@@ -5,10 +5,11 @@ import { Pokemon } from './entities/pokemon.entity';
 import { isValidObjectId, Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { IsMongoId } from 'class-validator';
+import { PaginationDto } from '../common/dto/pagnation-dto';
 
 @Injectable()
 export class PokemonService {
-
+ 
 
   //las inyecciones de dependencias se hacen en el constructor
   constructor(
@@ -39,12 +40,15 @@ export class PokemonService {
     catch (error: any) {
       this.handleExceptions(error); //método para manejar errores, lo creamos más abajo
     }
-
-    
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  findAll( paginationDto:PaginationDto) {
+    //para manejar query parameters necesitamos un nuevo DTO
+    const {limit= 10, offset=0}=paginationDto  //acá hacemos la paginación
+    return this.pokemonModelo.find()
+                              .limit(limit)
+                              .skip(offset)
+                              .sort({no:1}); //ordeno por número
   }
 
   //será asincrono porque va a buscar en la base de datos, por lo que hay que usar async y await

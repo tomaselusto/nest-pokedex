@@ -1,28 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosInstance } from 'axios';
+
 import { PokeResponse } from './interfaces/poke-response-interface';
 import { PokemonService } from '../pokemon/pokemon.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from '../pokemon/entities/pokemon.entity';
 import { Model } from 'mongoose';
+import { AxiosAdapter } from '../common/adapters/axios-adapter';
 
 @Injectable()
 export class SeedService {
-
-  
-  private readonly axios: AxiosInstance;
   constructor( 
   @InjectModel(Pokemon.name) 
-  private readonly pokemonModelo: Model<Pokemon>    
-  ) {
-    this.axios = axios;
+  private readonly pokemonModelo: Model<Pokemon>,    
+  private readonly http: AxiosAdapter){
   }
   async executeSeed() {
     await this.pokemonModelo.deleteMany({}); //eliminamos todos los pokemones de la base de datos antes de insertar los nuevos, para evitar duplicados
     //aca con axios hacemos la peticion a la api de pokeapi y 
     // obtenemos los datos de los pokemones. Además sumamos la interfaz de 
     // PokeResponse para tipar la respuesta de la api y evitar errores de tipado en el proyecto.
-    const {data} = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=650');
+    const data = await this.http.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=650');
     //forma ideal de tipar la respuesta de la api, ya que nos permite acceder a las propiedades de la respuesta de la api con autocompletado y sin errores de tipado.
 
     const pokemonToInsert:{name: string, no: number}[] = []; //array que va a contener los pokemones que vamos a insertar en la base de datos, con la forma {name: string, no: number}
