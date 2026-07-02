@@ -29,6 +29,13 @@ yarn add axios@0.27.2
 ```
 http://localhost:3000/api/v2/seed
 ```
+8. clonar arhicvo __.env.template__ y renombrar la copia a __.env__
+9. LLenar las variabales de entorno.
+10. Ejecutar la la aplicación en dev:
+```
+yarn start:dev
+```
+Ejecutar paso 7
 
 
 
